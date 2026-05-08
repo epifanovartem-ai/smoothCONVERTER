@@ -1,0 +1,95 @@
+{
+  "title": "2. Прогрессивное шассе — Партнёр",
+  "subtitle": "Медленный вальс",
+  "level": "Бронза 1",
+  "commence": "Начало: ЗП, лицом по ЛТ",
+  "steps": [
+    {
+      "step": "1",
+      "footPosition": "ЛН вперёд",
+      "dancePosition": "ЗП",
+      "alignment": "Л по ЛТ",
+      "turn": "Нет",
+      "cbm": "Слегка",
+      "riseFall": "Начало подъёма в конце 1",
+      "fw": "К-Н",
+      "count": "М",
+      "beat": "1",
+      "sway": "S"
+    },
+    {
+      "step": "2",
+      "footPosition": "ПН в сторону и слегка вперёд",
+      "dancePosition": "ЗП",
+      "alignment": "Л по ЛТ",
+      "turn": "Нет",
+      "cbm": "Нет",
+      "riseFall": "Продолжение подъёма на 2 и 3",
+      "fw": "Н",
+      "count": "Б",
+      "beat": "2",
+      "sway": "L"
+    },
+    {
+      "step": "3",
+      "footPosition": "ЛН приставляется к ПН",
+      "dancePosition": "ЗП",
+      "alignment": "Л по ЛТ",
+      "turn": "Нет",
+      "cbm": "Нет",
+      "riseFall": "Снижение в конце 3",
+      "fw": "Н-К",
+      "count": "Б",
+      "beat": "3",
+      "sway": "L"
+    },
+    {
+      "step": "4",
+      "footPosition": "ПН вперёд",
+      "dancePosition": "ЗП",
+      "alignment": "Л по ЛТ",
+      "turn": "Нет",
+      "cbm": "Слегка",
+      "riseFall": "Начало подъёма в конце 4",
+      "fw": "К-Н",
+      "count": "М",
+      "beat": "1",
+      "sway": "S"
+    },
+    {
+      "step": "5",
+      "footPosition": "ЛН в сторону и слегка вперёд",
+      "dancePosition": "ЗП",
+      "alignment": "Л по ЛТ",
+      "turn": "Нет",
+      "cbm": "Нет",
+      "riseFall": "Продолжение подъёма на 5 и 6",
+      "fw": "Н",
+      "count": "Б",
+      "beat": "2",
+      "sway": "R"
+    },
+    {
+      "step": "6",
+      "footPosition": "ПН приставляется к ЛН",
+      "dancePosition": "ЗП",
+      "alignment": "Л по ЛТ",
+      "turn": "Нет",
+      "cbm": "Нет",
+      "riseFall": "Снижение в конце 6",
+      "fw": "Н-К",
+      "count": "Б",
+      "beat": "3",
+      "sway": "R"
+    }
+  ],
+  "summary": [
+    { "label": "1-й такт:", "desc": "ЛН вперёд прогрессивное", "rowSpan": 3, "startStep": 1 },
+    { "label": "2-й такт:", "desc": "ПН вперёд прогрессивное", "rowSpan": 3, "startStep": 4 }
+  ],
+  "leadNotes": "",
+  "notes": [
+    "Небольшой поворот влево может быть выполнен на шагах 1–3, и вправо на шагах 4–6.",
+    "Каждый такт может исполняться отдельно, в этом случае он называется «Шаг перемены» (Change Step) или «Закрытая перемена» (Closed Change)."
+  ]
+}
