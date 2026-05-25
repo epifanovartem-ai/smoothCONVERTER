@@ -1,7 +1,9 @@
 require('dotenv').config();
+const path = require('path');
+process.env.PUPPETEER_CACHE_DIR = path.join(__dirname, '.cache', 'puppeteer');
+
 const express = require('express');
 const multer = require('multer');
-const path = require('path');
 const { extractFromImage } = require('./lib/gemini');
 const { renderPng } = require('./lib/render-png');
 
@@ -14,8 +16,9 @@ app.post('/convert', upload.single('image'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'Файл не загружен' });
 
-    const pages = await extractFromImage(req.file.buffer, req.file.mimetype);
-    const png = await renderPng(pages);
+    const danceType = req.body.danceType || 'slow-waltz';
+    const pages = await extractFromImage(req.file.buffer, req.file.mimetype, danceType);
+    const png = await renderPng(pages, danceType);
 
     res.setHeader('Content-Type', 'image/png');
     res.setHeader('Content-Disposition', 'attachment; filename="result.png"');

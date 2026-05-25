@@ -19,6 +19,12 @@
   input[type=file] { display: none; }
   .preview { margin-top: 20px; max-width: 100%; border-radius: 10px; display: none; }
   .preview.show { display: block; }
+  .dance-selector { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .dance-btn { flex: 1; min-width: 110px; padding: 9px 12px; background: #f0ede8; color: #444; border: 2px solid transparent; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .dance-btn:hover { background: #e4dfd7; }
+  .dance-btn.active { background: #2b4c8c; color: #fff; border-color: #2b4c8c; }
+  .dance-btn .num { display: inline-block; width: 18px; height: 18px; background: rgba(255,255,255,0.25); border-radius: 5px; font-size: 11px; line-height: 18px; text-align: center; margin-right: 5px; }
+  .dance-btn:not(.active) .num { background: rgba(43,76,140,0.12); color: #2b4c8c; }
   button { margin-top: 20px; width: 100%; padding: 14px; background: #2b4c8c; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
   button:hover:not(:disabled) { background: #1f3a6e; }
   button:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -33,6 +39,13 @@
   <div class="card">
     <h1>Танцевальные таблицы</h1>
     <p class="sub">Загрузите PNG с таблицей — получите красивую переведённую версию</p>
+
+    <div class="dance-selector">
+      <button type="button" class="dance-btn active" data-dance="slow-waltz"><span class="num">1</span>Slow Waltz</button>
+      <button type="button" class="dance-btn" data-dance="tango"><span class="num">2</span>Tango</button>
+      <button type="button" class="dance-btn" data-dance="slow-fox"><span class="num">3</span>Slow Fox</button>
+      <button type="button" class="dance-btn" data-dance="viennese-waltz"><span class="num">4</span>Viennese Waltz</button>
+    </div>
 
     <label for="file" class="drop" id="drop">
       <p><strong>Нажмите</strong> или перетащите PNG сюда</p>
@@ -53,6 +66,15 @@ const filenameEl = document.getElementById('filename');
 const submit = document.getElementById('submit');
 const status = document.getElementById('status');
 let currentFile = null;
+let currentDance = 'slow-waltz';
+
+document.querySelectorAll('.dance-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.dance-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentDance = btn.dataset.dance;
+  });
+});
 
 ['dragover', 'dragenter'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('dragover'); }));
 ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('dragover'); }));
@@ -88,6 +110,7 @@ submit.addEventListener('click', async () => {
   try {
     const fd = new FormData();
     fd.append('image', currentFile);
+    fd.append('danceType', currentDance);
     const r = await fetch('/convert', { method: 'POST', body: fd });
     if (!r.ok) {
       const err = await r.json().catch(() => ({ error: 'Ошибка ' + r.status }));
