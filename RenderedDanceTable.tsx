@@ -19,8 +19,23 @@ export type PageData = {
   }>;
   summary: Array<{ label: string; desc: string; rowSpan: number; startStep: number }>;
   leadNotes: string;
+  notesHeader?: "shared" | "leader" | "follower" | "lead" | "general";
   notes: string[];
 };
+
+function leadBlockTitle(notesHeader: PageData["notesHeader"], hasNotesList: boolean, title = "") {
+  if (notesHeader === "lead") return "Ведение:";
+  if (hasNotesList && (notesHeader === "leader" || notesHeader === "follower")) return "Ведение:";
+  return /партнёрша|follower/i.test(title) ? "Примечание для ведомого:" : "Примечание для ведущего:";
+}
+
+function notesSectionTitle(notesHeader: PageData["notesHeader"], title = "") {
+  if (notesHeader === "shared") return "Примечание для ведущего и ведомого:";
+  if (notesHeader === "leader") return "Примечание для ведущего:";
+  if (notesHeader === "follower") return "Примечание для ведомого:";
+  if (notesHeader === "general") return "Примечания:";
+  return /партнёрша|follower/i.test(title) ? "Примечание для ведомого:" : "Примечание для ведущего:";
+}
 
 const columns = [
   { key: "step", label: "Шаг", width: "w-12" },
@@ -28,7 +43,7 @@ const columns = [
   { key: "dancePosition", label: "Танц. позиция", width: "w-32" },
   { key: "alignment", label: "Направление", width: "w-20" },
   { key: "turn", label: "Поворот", width: "w-16" },
-  { key: "cbm", label: "ДКТ", width: "w-14" },
+  { key: "cbm", label: "ПДК", width: "w-14" },
   { key: "riseFall", label: "Подъём и снижение", width: "w-44" },
   { key: "fw", label: "Работа стопы", width: "w-40" },
   { key: "count", label: "Счёт", width: "w-14" },
@@ -136,13 +151,15 @@ const RenderedDanceTable = forwardRef<HTMLDivElement, { data: PageData }>(({ dat
         <div className="mt-6 rounded-xl border border-border bg-card p-5 shadow-sm">
           {data.leadNotes && (
             <>
-              <h3 className="font-semibold text-foreground mb-2">Ведущий:</h3>
+              <h3 className="font-semibold text-foreground mb-2">
+                {leadBlockTitle(data.notesHeader, (data.notes?.length ?? 0) > 0, data.title)}
+              </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{data.leadNotes}</p>
             </>
           )}
           {data.notes?.length > 0 && (
             <>
-              <h3 className="font-semibold text-foreground mt-4 mb-2">Примечания:</h3>
+              <h3 className="font-semibold text-foreground mt-4 mb-2">{notesSectionTitle(data.notesHeader, data.title)}</h3>
               <ol className="list-decimal list-inside text-sm text-muted-foreground space-y-1">
                 {data.notes.map((n, i) => <li key={i}>{n}</li>)}
               </ol>

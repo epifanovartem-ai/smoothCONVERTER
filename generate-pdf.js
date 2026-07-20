@@ -11,7 +11,7 @@ function renderTable(data) {
     { key: 'dancePosition', label: 'Танц. поз.' },
     { key: 'alignment', label: 'Направление' },
     { key: 'turn', label: 'Поворот' },
-    { key: 'cbm', label: 'ДКТ' },
+    { key: 'cbm', label: 'ПДК' },
     { key: 'riseFall', label: 'Подъём и снижение' },
     { key: 'fw', label: 'Работа стопы' },
     { key: 'sway', label: 'Свей' },
@@ -37,10 +37,11 @@ function renderTable(data) {
 
     let summaryCell = '';
     const sum = summaryMap[stepNum];
-    if (sum) {
+    const insideSpan = Object.values(summaryMap).some(s =>
+      stepNum > s.startStep && stepNum < s.startStep + s.rowSpan,
+    );
+    if (sum && !insideSpan) {
       summaryCell = `<td rowspan="${sum.rowSpan}" class="summary-cell"><strong>${sum.label}</strong><br/>${sum.desc}</td>`;
-    } else if (!Object.values(summaryMap).some(s => stepNum > s.startStep && stepNum < s.startStep + s.rowSpan)) {
-      summaryCell = '';
     }
 
     const rowClass = i % 2 === 0 ? 'even' : 'odd';

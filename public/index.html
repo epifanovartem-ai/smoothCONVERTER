@@ -20,7 +20,7 @@
   .preview { margin-top: 20px; max-width: 100%; border-radius: 10px; display: none; }
   .preview.show { display: block; }
   .dance-selector { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
-  .dance-btn { flex: 1; min-width: 110px; padding: 9px 12px; background: #f0ede8; color: #444; border: 2px solid transparent; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .dance-btn { flex: 1; min-width: 110px; padding: 9px 12px; background: #f0ede8; color: #444; border: 2px solid transparent; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 0; width: auto; text-align: center; }
   .dance-btn:hover { background: #e4dfd7; }
   .dance-btn.active { background: #2b4c8c; color: #fff; border-color: #2b4c8c; }
   .dance-btn .num { display: inline-block; width: 18px; height: 18px; background: rgba(255,255,255,0.25); border-radius: 5px; font-size: 11px; line-height: 18px; text-align: center; margin-right: 5px; }
@@ -33,6 +33,10 @@
   .status.success { color: #27ae60; }
   .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid #c9c2b3; border-top-color: #2b4c8c; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 8px; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  .custom-title-wrap { margin-top: 16px; }
+  .custom-title-wrap input { width: 100%; padding: 10px 14px; border: 2px solid #c9c2b3; border-radius: 10px; font-size: 14px; color: #1a1a2e; background: #faf8f4; outline: none; transition: border-color 0.2s; }
+  .custom-title-wrap input:focus { border-color: #2b4c8c; }
+  .custom-title-wrap input::placeholder { color: #aaa; }
 </style>
 </head>
 <body>
@@ -53,6 +57,10 @@
     <input type="file" id="file" accept="image/png,image/jpeg">
     <div id="filename" class="filename"></div>
     <img id="preview" class="preview" alt="preview">
+
+    <div class="custom-title-wrap">
+      <input type="text" id="customTitle" placeholder="Своё название фигуры (необязательно)">
+    </div>
 
     <button id="submit" disabled>Преобразовать</button>
     <div class="status" id="status"></div>
@@ -111,6 +119,7 @@ submit.addEventListener('click', async () => {
     const fd = new FormData();
     fd.append('image', currentFile);
     fd.append('danceType', currentDance);
+    fd.append('customTitle', document.getElementById('customTitle').value.trim());
     const r = await fetch('/convert', { method: 'POST', body: fd });
     if (!r.ok) {
       const err = await r.json().catch(() => ({ error: 'Ошибка ' + r.status }));
